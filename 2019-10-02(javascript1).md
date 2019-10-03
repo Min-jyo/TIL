@@ -212,11 +212,11 @@ Tip : 브라우저별 Javascript 엔진 이름이 다 다르다
 
 ### 웹 브라우저는 어떻게 동작하는가?
 
-![웹 브라우저의 동작](C:\Users\owner\Desktop\웹 브라우저의 동작.png)
+![Picture4](./images/Picture4.PNG)
 
 ​																					       <그림 1>
 
-​	         ![Client,Sever](C:\Users\owner\Desktop\Client,Sever.PNG)																					       
+​![Picture3](./images/Picture3.PNG)																					       
 
 ​																					       <그림 2>																					
 
@@ -266,7 +266,7 @@ Case 2 : HTML 문서를 파싱하면서 script 태그를 만났을때!
 
 
 
-![자바스크립트 엔진의 소스 코드 실행 과정](C:\Users\owner\Desktop\자바스크립트 엔진의 소스 코드 실행 과정.png)
+![Picture5](./images/Picture5.PNG)
 
 제어 권한을 넘겨 받은 자바스크립트 엔진은 자바스크립트 파일을 로드하고 파싱하여 실행한다. 
 
@@ -297,16 +297,6 @@ AST를 통해 바이트 코드 생성하여 실행
   -> 토큰들의 집합을 구문 분석(Syntactic analysis)하여 AST(Abstract Syntax        Tree, 추상적 	구문 트리)를 생성함AST는 토큰에 문법적 의미와 구조를 반영한 트리 구조의 자료 구조이다.
 
   -> 자바스크립트가 문법을 이해할수 있음
-
-  
-
-- 순서 3 : 
-
-- 
-
-- 
-
-- 
 
   
 
