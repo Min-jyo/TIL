@@ -75,7 +75,7 @@ Tip 1. 브라우저의 사용자 인터페이스는 표준 명세가 없음에�
 
 
 
-![Picture1](./images/Picture1.png)
+![Picture1](./images/Picture1.PNG)
 
 ------
 
