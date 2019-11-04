@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Todos 1.0</title>
+  <!-- <link href="css/style.css" rel="stylesheet"> -->
+  <!-- <script defer src="js/app.js"></script> -->
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="title">Todos</h1>
+    <div class="ver">1.0</div>
+
+    <input class="input-todo" placeholder="What needs to be done?" autofocus>
+
+    <ul class="todos">
+      <li id="myId" class="todo-item" style="text-decoration: line-through;">
+        <input class="checkbox" type="checkbox" id="ck-myId">
+        <label for="ck-myId">HTML</label>
+        <i class="remove-todo far fa-times-circle"></i>
+      </li>
+    </ul>
+
+    <footer>
+      <div class="complete-all">
+        <input class="checkbox" type="checkbox" id="ck-complete-all">
+        <label for="ck-complete-all">Mark all as complete</label>
+      </div>
+      <div class="clear-completed">
+        <button class="btn">Clear completed (<span class="completed-todos">0</span>)</button>
+        <strong class="active-todos">0</strong> items left
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // DOM
+    $todos = document.querySelector('.todos'); // ul 태그 
+    $input = document.querySelector('.input-todo'); // input 태그
+    $completeAll = document.querySelector('.complete-all');
+    $completedTodos = document.querySelector('.completed-todos');
+    $leftTodo = document.querySelector('.active-todos');
+    $clearCompleted = document.querySelector('.clear-completed');
+
+    // todo 리스트
+    let todos = [{
+        id: 1,
+        content: 'HTML',
+        completed: false
+      },
+      {
+        id: 2,
+        content: 'CSS',
+        completed: true
+      },
+      {
+        id: 3,
+        content: 'Javascript',
+        completed: false
+      }
+    ];
+
+    // 함수 정의
+
+    // <render 함수>
+    function render() {
+      let html = '';
+      console.log(todos);
+      todos.sort((todo1, todo2) => todo2.id - todo1.id)
+
+      todos.forEach(item => {
+        html +=
+          `<li id="${item.id}" class="todo-item">
+          <input class="checkbox" type="checkbox" id="ck-${item.id}" ${item.completed ? 'checked' : ''}>
+          <label for="ck-${item.id}">${item.content}</label>
+          <i class="remove-todo far fa-times-circle"></i>
+         </li>
+        `
+      })
+      console.log(todos);
+      $todos.innerHTML = html;
+      $completedTodos.textContent = todos.filter(item => item.completed).length;
+      $leftTodo.textContent = todos.filter(item => !item.completed).length;
+    }
+
+    // <할일 추가 함수>
+    function addTodo(e) {
+      if (e.keyCode !== 13) return;
+      todos = [{
+        id: todos.length ? todos[0].id + 1 : 1,
+        content: e.target.value,
+        completed: false
+      }, ...todos];
+      console.log(todos);
+      e.target.value = '';
+      console.log('[추가완성 todos]', todos);
+      render();
+    }
+
+    // <할일 제거 함수>
+    function removeTodo(e) {
+      if(!e.target.classList.contains('remove-todo')) return;
+      console.log('[선택한 요소 부모의 id값]',e.target.parentNode.id);
+      todos = todos.filter(item => item.id !== +e.target.parentNode.id)
+      console.log('filter한 todos 배열', todos);
+      render();
+    }
+
+    // completd 토글 함수
+    function toggleCompleted (e) {
+      console.log(e.target);
+      console.log(e.target.parentNode.id);
+
+      todos = todos.map((item) => {
+        if(item.id === +e.target.parentNode.id) {
+          return {...item, completed: e.target.checked};
+        } else{
+          return item;
+        }
+      })
+      console.log('[toggle상태에 따른 todos]',todos);
+      render();
+    }
+
+    // <전체 completed 변경 함수>
+    function markAllAsCompleted (e) {
+      console.log(e.target.checked);
+      
+      todos = todos.map(item => ({...item, completed: e.target.checked}))
+      console.log('[Mark all as complete 누른후 todos 상태]', todos);
+      
+      render();
+    }
+
+    // completed가 true 인 할일 제거 함수
+    function clearCompleted (e) {
+      console.log(e.target);
+      
+      todos = todos.filter(item => {
+        return item.completed !== true;
+      })
+      
+      render();
+    }
+
+    // 이벤트
+    window.onload = render; 
+    $input.onkeyup = addTodo; 
+    $todos.onclick = removeTodo;
+    $todos.onchange = toggleCompleted;
+    $completeAll.onchange = markAllAsCompleted;
+    $clearCompleted.onclick = clearCompleted;
+
+  </script>
+</body>
+
+</html>
