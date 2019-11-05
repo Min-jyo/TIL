@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Popup</title>
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400);
+
+    body {
+      font-family: 'Open Sans';
+      font-weight: 300;
+      background-color: #D6E1E5;
+      position: relative;
+    }
+
+    h1 {
+      color: #DB5B33;
+      font-weight: 300;
+      text-align: center; 
+    }
+    /* 팝업창 */
+    .popup{
+      display: block;
+      position: relative;
+     
+      position: absolute;
+      top: 0;
+      left: 15vw;
+      width: 70vw;
+
+      /* display: none 이벤트시 바꿔줘야됨*/
+      display: none;
+    }
+    /* 닫기 버튼 */
+    .btn-close{
+      position: absolute;
+      top: 0;
+      right: 0;      
+    } 
+
+
+    /* CSS 작성 바랍니다. */
+  </style>
+</head>
+<body>
+  <h1>JavaScript Popup</h1>
+
+  <div class="popup">
+    <h1>JavaScript Popup</h1>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam</p>
+    <button class="btn-close">X</button>
+    <input type="text">
+    <button class="btn-ok">OK</button>
+    <button class="btn-cancel">Cancel</button>
+  </div>
+  <div class="overlay"></div>
+
+  <button class="toggle-popup">show popup</button>
+
+  <p class="popup-message"></p>
+  <script>
+    // DOM
+      // 1. show popup 버튼
+      const $togglePopup = document.querySelector('.toggle-popup');
+      // 2. pop 창
+      const $popUp = document.querySelector('.popup');
+      // 3. p 창
+      const $p = document.querySelector('.popup-message');
+      const $body = document.querySelector('body');
+
+    // 변수 
+    let string = ''; // 사용자에게 받는값
+    // 함수
+
+    // 팝업 버튼
+    function togglePopupClick() {
+      console.log('hello');
+      $popUp.style.display = 'block';
+      $popUp.style.background = 'white';
+      $body.style.background = 'gray';
+    }
+
+    // string 넣기
+    function popupInputKeyup(e){
+      //  console.log(e.target.value);
+      if(e.target.value==='') return;
+      string = e.target.value;
+      // console.log(string);
+    }
+
+    // pop 내 버튼 함수
+    function popUpOnclick(e){
+      
+      //btn-ok 버튼
+      if(e.target.classList.contains('btn-ok')){
+        $popUp.style.display = 'none';
+        $p.textContent = `form popup: ${string}`;
+        console.log(e.target.parentNode.children);
+        [...e.target.parentNode.children].forEach(item => {
+          if(item.hasAttribute('type')){
+            item.value = '';
+          }
+        })
+      };
+
+      //btn-cancel 버튼
+      if(e.target.classList.contains('btn-cancel')){
+        $popUp.style.display = 'none';
+        [...e.target.parentNode.children].forEach(item => {
+          if(item.hasAttribute('type')){
+            item.value = '';
+          }
+        })
+        
+      };
+
+      //btn-close 버튼
+      if(e.target.classList.contains('btn-close')){
+        $popUp.style.display = 'none';
+        [...e.target.parentNode.children].forEach(item => {
+          if(item.hasAttribute('type')){
+            item.value = '';
+          }
+        })
+      };
+    }
+
+    // 이벤트
+    $togglePopup.onclick = togglePopupClick;
+    $popUp.onkeyup = popupInputKeyup;
+    $popUp.onclick = popUpOnclick;
+
+  </script>
+</body>
+</html>
