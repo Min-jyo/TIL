@@ -1,0 +1,358 @@
+@charset "utf-8";
+@import url('./fontello.css');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+li{
+  list-style: none;
+}
+a {
+  text-decoration : none;
+  color : inherit;
+}
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+
+.a11y-hidden,
+legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+html {
+  font-size: 10px;
+}
+
+body {
+  font-size: 1.4rem;
+  margin : 0;
+  color : #181818;
+  font-family: 'Spoqa Han Sans', 'Sans-serif';
+  font-weight: 400;
+
+    /* member absolute , header absolute*/ 
+    position: relative; 
+}
+
+/* 헤더 시작 */
+
+.header{
+  background-color: skyblue;
+}
+.logo{
+  background-color: red;
+  display : inline-block;
+  position : absolute;
+}
+
+.member{
+  font-size: 14px;
+  background-color: yellow;
+  display: block;
+  text-align:end;
+  
+}
+
+.member li{
+  display : inline-block;
+  vertical-align: middle;
+}
+
+.member li:nth-child(4)::after{
+  font-family: "fontello";
+  content: '\e800';
+  background-color:pink;
+}
+
+.member li:nth-child(5){
+  background-color: skyblue;
+
+    /* top icon 그림 */
+  background:url(./static/logo/top_icon.PNG) no-repeat;
+  
+  display: inline-block;
+
+  /* 그림 크기 */
+  width: 35px;
+  height: 35px;
+
+  /* 글자 숨기기 */
+  text-indent: 36px;
+  white-space:nowrap;
+  overflow: hidden;
+  
+  /* 그림 이동 */
+  /* background-position: -35px -35px; */
+}
+
+.member li:nth-child(6){
+
+  /* top icon 그림 */
+background:url(./static/logo/top_icon.PNG) no-repeat;
+
+display: inline-block;
+
+/* 그림 크기 */
+width: 35px;
+height: 35px;
+
+/* 글자 숨기기 */
+text-indent: 36px;
+white-space:nowrap;
+overflow: hidden;
+
+/* 그림 이동 */
+background-position: -36px 0px;
+}
+
+.navigation{
+  font-size : 19px;
+  background-color: pink;
+  display: block;
+  text-align: center;
+}
+
+.menu-item{
+  display : inline-block;
+}
+
+.sub-menu{
+  display : none;
+}
+
+.viewing-time p::before{
+  
+  content : "시계";
+
+
+  /* top icon 그림 */
+  background:url(./static/logo/icon_clock.PNG) no-repeat;
+
+  display: inline-block;
+  
+  /* 그림 크기 */
+  width: 16px;
+  height: 16px;
+  
+  /* 글자 숨기기 */
+  text-indent: 17px;
+  white-space:nowrap;
+  overflow: hidden;
+  /* 그림 이동 */
+  /* background-position: -36px 0px; */
+}
+
+/* 헤더 끝 */
+
+/* main 시작 */
+
+.main{
+  color : white;
+}
+
+.main-nav{
+  font-size: 20px;
+  position: fixed;
+  top: 50vw;
+  right: 0;
+  list-style : none;
+  text-decoration: underline;
+}
+
+.news{
+  background : url(./static/main/con1_bg.jpg);
+  background-size: 100vw auto;
+}
+
+.news-header{
+  font-size : 45px;
+  display: inline-block;
+  background-color: darkgreen;
+
+  vertical-align: top;
+}
+
+.viewing-information{
+  display : flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.view-information-list{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  padding : 0;
+}
+
+.notice{
+  list-style: none;
+}
+
+.notice-list{
+  padding : 0;
+}
+
+/* 케레셀 파트!!!!!!!!!!!!!!!!!!!! */
+.notice-list > li:nth-child(2){
+  display: none;
+}
+
+.view-information-list > a{
+/* display:block; */
+}
+
+
+
+.view-information-list > li:nth-child(2){
+  background-color: blue;
+}
+
+.view-information-list > li:nth-child(2) > a::after{
+/* top icon 그림 */
+
+
+
+content : "관람안내";
+
+background: url(./static/main/con_icon.png) no-repeat;
+
+display: inline-block;
+
+/* 그림 크기 */
+width: 30px;
+height: 29px;
+
+/* 글자 숨기기 */
+text-indent: 31px;
+white-space:nowrap;
+overflow: hidden;
+
+/* vertical-align: bottom; */
+}
+
+.view-information-list > li:nth-child(3){
+  background-color: brown;  
+}
+
+.view-information-list > li:nth-child(3) > a::after{
+  /* top icon 그림 */
+  
+  content : "오시는길";
+  
+  background: url(./static/main/con_icon.png) no-repeat;
+  
+  display: inline-block;
+  
+  /* 그림 크기 */
+  width: 27px;
+  height: 33px;
+  
+  /* 글자 숨기기 */
+  text-indent: 28px;
+  white-space:nowrap;
+  overflow: hidden;
+  
+  /* vertical-align: bottom; */
+
+    /* 그림 이동 */
+  background-position: -31px 0px;
+}
+
+.new-news{
+  background-color: pink;
+}
+
+.new-news-header{
+  background-color: yellowgreen;
+  font-size: 20px;
+  color: orange;
+}
+
+.new-news-list{
+  display: flex; 
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* 새소식 리스트의 첫번재 li */
+.new-news-list > li:nth-child(1){
+  display: inline-block;
+  background-color: green;
+  width: 30vw;
+}
+/* 새소식 리스트의 두번째 li */
+.new-news-list > li:nth-child(2){
+  display: inline-block;
+  background-color: blue;
+  width: 30vw;
+}
+/* 새소식 리스트의 세번째 li */
+.new-news-list > li:nth-child(3){
+  display: inline-block;
+  background-color: purple;
+  width: 30vw;
+}
+
+.new-news-list > li > p{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sns{
+  background-color: red;
+}
+
+.sns-header{
+  background-color: skyblue;
+  color: orange;
+}
+.sns-list{
+  background-color: yellow;
+}
+
+.sns-list > li:nth-child(1){
+  display: inline-block;
+  background-color: green;
+  width: 23vw;
+}
+
+.sns-list > li:nth-child(2){
+  display: inline-block;
+  background-color: blue;
+  width: 23vw;
+}
+
+.sns-list > li:nth-child(3){
+  display: inline-block;
+  background-color: purple;
+  width: 23vw;
+}
+.sns-list > li:nth-child(4){
+  display: inline-block;
+  background-color: black;
+  width: 23vw;
+}
+
+
+
+
+
+
+
