@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="./practice.css">
+  <style>
+    .div{
+      height: 100px;
+      width: 50%;
+      margin: 0 auto;
+      position : relative;
+    }
+
+    .input{
+      width: 100%;
+      height: 100px;
+      margin: auto 0;
+    }
+
+    .background{
+      width: 0;
+      height: 4px;
+      background:blue;
+      position : absolute;
+      top: calc(50% - 2px);
+      left: 0;
+    }
+    
+  </style>
+</head>
+<body>
+  
+  <div class="div">
+    <input type="range" min="1" max="100" value="1" step = "1" class="input">
+    <div class="background"></div>
+  </div>
+  
+  <script>
+    //DOM
+    $input = document.querySelector('.input');
+    $background = document.querySelector('.background');
+
+    function inputchange(e) {
+      console.log(e.target.value)
+      $background.style.width = `calc((100% - 11px)/99*${e.target.value-1})`
+    }
+
+    //Event
+    $input.oninput = inputchange;
+
+  </script>
+</body>
+</html>
