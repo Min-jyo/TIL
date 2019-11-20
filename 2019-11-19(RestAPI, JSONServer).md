@@ -88,5 +88,25 @@
    ]
    ```
 
+   ---------
+
+2. curl이 뭔가?
+
+   ```javascript
+   $ curl -X GET http://localhost:5000/todos/1
+   ```
+
+   브라우저에서 http://localhost:5000/todos/1주소를 입력하고 출력된값을 터미널에 출력해줌
+
    
+
+   아래 그림은 GET 터미널 결과 사진임
+
+   ![2019-11-19-2](./images/2019-11-19-2-1.PNG)
+
+   
+
+   아래 그림은 POST 터미널 결과 사진임
+
+   ![2019-11-19-2-2](C:\Minjyo\TIL\images\2019-11-19-2-2.PNG)
 
