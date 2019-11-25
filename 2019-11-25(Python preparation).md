@@ -539,5 +539,551 @@ ex) 뒤에있는 값이 문자열 포맷대로 문자열로 들어가서 출력�
    
    ```
 
+------------
+
+# 6. 시퀸스
+
+### 1. 파이썬에 내장된 시퀸스 타입 3가지
+
+1. 문자열
+
+   1. 표현법
+
+      인용부호(작은 따옴표, 큰 따옴표)
+
+2. 리스트
+
+   1. 표현법 
+
+      대괄호[]
+
+3. 튜플
+
+   1. 표현법
+
+      괄호()
+
+
+
+특징 : 시퀸스 타입의 객체는 인덱스 연산을 통해 내부 항목에 접근할수 있음.
+
+
+
+### 2. 리스트
+
+1. 특징 : 
+   1. 리스트는 순차적인 데이터를 나타내는데 유용하다. 
+   2. 내부 항목을 변경할 수 있다.
+
+
+
+2. 리스트 생성방법 :
+
+   ```python
+   >>> empty_list1 = []
+   >>> empty_list2 = list()
+   >>> sample_list = ['a','b','c','d']
+   >>> sample_list2 = ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+   ```
+
+3. 다른 데이터를 리스트로 변환 : 
+
+   1. list 함수를 사용
+
+      
+
+      ex) 문자열을 리스트로 변경하는 예시
+
+      ```python
+      >>> list('League of legends')
+      // ['L', 'e', 'a', 'g', 'u', 'e', ' ', 'o', 'f', ' ', 'l', 'e', 'g', 'e', 'n', 'd', 's']
+      ```
+
+4. 인덱스 연산
+
+   ```python
+   >>> sample_list2 = ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+   >>> sample_list2[0] // 'Jan'
+   ```
+
+
+
+5. 내부항목 변경
+
+   ```python
+   >>> sample_list = ['a','b','c','d']
    
+   // sample_list를 이용, 3번째 요소인 'c'를 대문자 'C'로 바꿔본다.
+   >>> sample_list[2] = sample_list[2].upper()
+   sample_list // ['a', 'b', 'C', 'd']
+   ```
+
+
+
+6. 슬라이스 연산
+
+   ```python
+   // 슬라이스 연산
+   [start : end : step] 
+   
+   >>> sample_list2 = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+   
+   // sample_list2를 이용, 1월부터 3월씩 건너뛴 결과를 quarters에 할당
+   >>> quarters = sample_list2[0:12:3]
+   >>> quarters // ['Jan','Apr','Jul','Oct']
+   
+   // sample_list2를 이용, 끝에서부터 3번째 요소까지를 last_three에 할당
+   >>> quauters = sample_list[-3:]
+   >>> quauters // ['Oct','Nov','Dev']
+   
+   // sample_list2를 이용, 끝에서부터처음부터(거꾸로) 2월씩 건너뛴 결과를 reverse_two_steps에 할당
+   >>> reverse_two_steps = sample_list2[::-1]
+   >>> reverse_two_steps 
+   // ['Dec', 'Nov', 'Oct', 'Sep', 'Aug', 'Jul', 'Jun', 'May', 'Apr', 'Mar', 'Feb', 'Jan']
+   ```
+
+7. 리스트 항목 추가(append)
+
+   ```python
+   >>> sample_list = ['a','b','c','d']
+   >>> sample_list.append('e')
+   >>> sample_list
+   ['a', 'b', 'c', 'd', 'e']
+   ```
+
+   
+
+8. 리스트 병합(extend, +=)
+
+   ```python
+   >>> fruits = ['apple', 'banana', 'melon']
+   >>> colors = ['red', 'green', 'blue']
+   >>> fruits.extend(colors)
+   >>> fruits 
+   // ['apple', 'banana', 'melon', 'red', 'green', 'blue']
+   
+   >>> fruits = ['apple', 'banana', 'melon']
+   >>> colors = ['red', 'green', 'blue']
+   >>> fruits += colors
+   >>> fruits 
+   // ['apple', 'banana', 'melon', 'red', 'green', 'blue']
+   ```
+
+9. 특정 위치에 리스트 항목 추가(insert)
+
+   1. insert 문법
+
+      ```python
+      list.insert(i,x)
+      ```
+
+      1. 주어진 위치에 항목을 삽입함
+      2. 첫 번째 인자는 삽입되는 요소가 갖게 될 인덱스입니다.
+
+   2. 예제
+
+      ```
+      >>> fruits = ['apple', 'banana', 'melon', 'red', 'green', 'blue']
+      
+      // 리스트의 처음에 삽입
+      >>> fruits.insert(0, x)
+      
+      // 리스트의 마지막에 삽입
+      >>> fruits.insert(len(fruits), x)
+      
+      // fruits 리스트의 1번째 위치에 'mango'를 추가해보자
+      >>> fruits.insert(0, 'mango')
+      >>> fruits 
+      // ['mango', 'apple', 'banana', 'melon', 'red', 'green', 'blue']
+      
+      // fruits리스트의 100번째 위치에 'pineapple'을 추가해보자
+      Error
+      ```
+
+10. 특정 위치 리스트 항목 삭제(del)
+
+    파이썬 구문 del을 사용
+
+    ```python
+    // del 문법
+    del <리스트>[오프셋] 
+    ```
+
+    ex)
+
+    ```python
+    >>> del fruits[0]
+    ```
+
+11. 값으로 리스트 항목 삭제(remove)
+
+    ```python
+    >>> fruits.remove('mango')
+    ```
+
+12. 리스트 항목 추출후 삭제(pop)
+
+    ```python
+    >>> fruits = ['mango', 'apple', 'banana', 'melon', 'red', 'green', 'blue', 'pineapple']
+    >>> fruits.pop() // 'pineapple'
+    >>> fruits.pop(-3) // 'red'
+    ```
+
+13. 값으로 리스트 항목 오프셋 찾기(index)
+
+    ```python
+    >>> fruits.index('apple')
+    // 1
+    ```
+
+14. 존재 여부 확인 (in)
+
+    ```python
+    >>> fruits = ['mango', 'apple', 'banana', 'melon', 'green', 'blue']
+    >>> 'red' in fruits 
+    // False
+    ```
+
+15. 값 세기(count)
+
+    ```python
+    arragne = ['1','2','3','1']
+    arrange.count('1')
+    // 2
+    ```
+
+16. 정렬하기 (sort, sorted)
+
+    ```python
+    arrange = ['1','2','3','1']
+    arrange.sort()
+    arrange // ['1', '1', '2', '3']
+    ```
+
+    ```python
+    arrange = ['1','2','3','1']
+    sorted(arrange)
+    // ['1', '1', '2', '3']
+    ```
+
+17. 리스트 복사
+
+    1. copy
+
+       ```python
+       ㅣ=['1']
+       ㅣ.copy()
+       // ['1']
+       ```
+
+    2. list 함수
+
+       ```python
+       ㅣ=['1']
+       list(l)
+       // ['1']
+       ```
+
+    3. 슬라이스 연산
+
+       ```python
+       ㅣ=['1']
+       ㅣ[:]
+       // ['1']
+       ```
+
+       
+
+### 3. 튜플
+
+1. 특징 : 튜플은 내부 항목의 삭제나 수정이 불가
+
+2. 튜플 생성방법 :
+
+   ```python
+   >>> empty_tuple = ()
+   >>> colors = 'red',
+   >>> fruits = 'apple', 'banana'
+   ```
+
+   1. 튜플을 정의할 때 괄호가 없어도 무관, but 괄호로 묶는것이 튜플임을 구분하기 좋음
+   2. 튜플의 요소가 1개일 때는 요소의 뒤에 쉼표(,)를 붙여야 한다.
+
+   
+
+3. 튜플 언패킹
+
+   ```python
+   fruits = 'apple', 'banana'
+   f1, f2 = fruits
+   f1 // 'apple'
+   f2 // 'banana'
+   ```
+
+
+
+4. 형 변환
+
+   1. 리스트를 튜플로 변환하는 예제
+
+      ```python
+      list = ['1','2','3','4']
+      tuple(list)
+      ('1', '2', '3', '4')
+      ```
+
+
+
+5. 튜플을 사용하는 이유
+   1. 리스트보다 적은 메모리 사용
+   2. 정의후에는 변하지 않는 내부 값
+
+-----------
+
+# 7. 딕셔너리, 셋
+
+### 1. 딕셔너리
+
+정의 : Key-Value. 형태로 항목을 가지는 자료구조
+
+1. 딕셔너리 생성
+
+   ```python
+   >>> empty_dict1 = {}
+   >>> empty_dict2 = dict() 
+   
+   >>> champion_dict = {
+       'Lux': 'the Lady of Luminosity',
+       'Ahri': 'the Nine-Tailed Fox',
+       'Ezreal': 'the Prodigal Explorer',
+       'Teemo': 'the Swift Scout',
+   }
+   ```
+
+   
+
+2. 형 변환
+
+   dict 함수를 사용, 두 값의 시퀀스(리스트 또는 튜플)을 딕셔너리로 변환
+
+   ```
+   >>> sample = [[1,2], [3,4], [5,6]]
+   >>> dict(sample)
+   {1: 2, 3: 4, 5: 6}
+   ```
+
+
+
+3. 항목 찾기/추가/변경 [key]
+
+   ```python
+   >>> champion_dict['Lux']
+   'the Lady of Luminosity'
+   
+   >>> champion_dict['Sona'] = 'Maven of the Strings'
+   >>> champion_dict['Lux'] = 'Demacia'
+   ```
+
+
+
+4. 항목이 없을 경우 기본값을 지정하고 찾기
+
+   ```python
+   champion_dict.get('Soraka') # 없을 경우 아무것도 출력하지 않음
+   champion_dict.get('Soraka', 'Healer') # 없을 경우 'Healer' 문자열
+   ```
+
+
+
+5. 결합(update)
+
+   ```python
+   >>> item_dict = {
+   	'Doran\'s Ring' : 400,
+   	'Doran\'s Blade' : 450,
+   	'Doran\'s Shield' : 450,
+   }
+   
+   >>> com_dict = {}
+   >>> com_dict.update(champion_dict)
+   >>> com_dict.update(item_dict)
+   >>> com_dict
+   ```
+
+   서로 같은 키가 있을 경우, update에 주어진 딕셔너리의 값이 할당된다.
+
+
+
+6. 삭제
+
+   ```python
+   >>> del com_dict['Doran\'s Blade']
+   >>> del com_dict['Doran\'s Ring]
+   >>> del com_dict['Doran\'s Shield']
+   ```
+
+
+
+7. 전체 삭제
+
+   ```python
+   com_dict.clear()
+   com_dict // {}
+   ```
+
+   
+
+8. in으로 키 검색 (True / False를 반환)
+
+   ```python
+   >>> champion_dict = {
+       'Lux': 'the Lady of Luminosity',
+       'Ahri': 'the Nine-Tailed Fox',
+       'Ezreal': 'the Prodigal Explorer',
+       'Teemo': 'the Swift Scout',
+   }
+   
+   >>> "Lux" in champion_dict
+   // True
+   ```
+
+9. 모든 키얻기
+
+   ```python
+   >>> champion_dict.keys()
+   // dict_keys(['Lux', 'Ahri', 'Ezreal', 'Teemo'])
+   ```
+
+10. 모든 값 얻기
+
+    ```python
+    >>> champion_dict.values()
+    // dict_values(['the Lady of Luminosity', 'the Nine-Tailed Fox', 'the Prodigal Explorer', 'the Swift Scout'])
+    ```
+
+11. 모든 키 - 값 얻기 (튜플로 변환)
+
+    ```python
+    >>> champion_dict.items()
+    // dict_items([('Lux', 'the Lady of Luminosity'), ('Ahri', 'the Nine-Tailed Fox'), ('Ezreal', 'the Prodigal Explorer'), ('Teemo', 'the Swift Scout')])
+    ```
+
+12.  복사
+
+    ```python
+    >>> champion_dict.copy()
+    // {'Lux': 'the Lady of Luminosity', 'Ahri': 'the Nine-Tailed Fox', 'Ezreal': 'the Prodigal Explorer', 'Teemo': 'the Swift Scout'}
+    ```
+
+
+
+### 2. 셋(Set)
+
+셋은 키만 있는 딕셔너리와 같으며, 중복된 값이 존재할 수 없다.
+
+
+
+1. 셋 생성 ( set(), 딕셔너리에서 키만 표시)
+
+   ```python
+   >>> empty_set = set()
+   >>> champions = {'lux', 'ahri', 'ezreal'}
+   ```
+
+
+
+2. 형 변환
+
+   문자열, 리스트, 튜플, 딕셔너리를 셋으로 변환할 수 있으며, 중복된 값이 사라진다.
+
+   ```python
+   >>> set('ezreal')
+   // {'l', 'a', 'r', 'e', 'z'}
+   
+   >>> champion_dict 
+   // {'Lux': 'the Lady of Luminosity', 'Ahri': 'the Nine-Tailed Fox', 'Ezreal': 'the Prodigal Explorer', 'Teemo': 'the Swift Scout'}
+   
+   >>> set(champion_dict)
+   // {'Ezreal', 'Lux', 'Teemo', 'Ahri'}
+   ```
+
+   딕셔너리는 키만 남는다.
+
+
+
+3. 집합 연산
+
+   | 연산자 | 설명                        |
+   | ------ | --------------------------- |
+   | \|     | 합집합(Union)               |
+   | &      | 교집합(Intersection)        |
+   | -      | 차집합(Difference)          |
+   | ^      | 대칭차집합(Exclusive)       |
+   | <=     | 부분집합(Subset)            |
+   | >      | 진부분집합(Proper subset)   |
+   | >=     | 상위집합(Superset)          |
+   | >      | 진상위집합(Proper superset) |
+
+   ex)
+
+   ```python
+   >>> A = {1,2,3,4,5}
+   >>> B = {4,5,6,7,8,9}
+   >>> C = {4,5,6}
+   >>> A|B // {1, 2, 3, 4, 5, 6, 7, 8, 9}
+   >>> A&B // {4,5}
+   >>> A-B // {1,2,3}
+   >>> B-A // {8,9,6,7}
+   >>> A^B // {1, 2, 3, 6, 7, 8, 9}
+   >>> A<=B // False
+   >>> C <= B // True
+   >>> C < B // True
+   >>> B <= B // True
+   >>> B < B // False
+   ```
+
+   --------
+
+# 8. 제어문
+
+### 1. if, elif, else (조건문)
+
+ex) 예제1
+
+```python
+if 조건 :
+		조건이 참일 경우
+else : 
+		조건이 거짓일 경우
+```
+
+ex) 예제2
+
+```python
+if 조건1:
+		조건1이 참일 경우
+else : 
+		조건1이 거짓일 경우
+		if 조건2:
+				조건1은 거짓이나, 조건2는 참일 경우
+		else:
+				조건1,2가 모두 거짓일 경우
+```
+
+ex) 예제3
+
+```python
+if 조건1:
+		조건1이 참일 경우
+elif 조건2:
+		조건1은 거짓이나, 조건2가 참일 경우
+else:
+		조건1,2가 모두 거짓일 경우
+```
+
+
+
+### 2. 조건표현식
+
+
 
