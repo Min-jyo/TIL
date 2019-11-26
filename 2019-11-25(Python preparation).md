@@ -2029,3 +2029,484 @@ StopIteration
 
 함수 내부에 yield 키워드가 사용되어 제너레이터 함수가 되었으며, 함수를 실행하면 제너레이터 객체를 반환한다. yield 부분에서 멈춘 제너레이터 객체를 순회하기 위해서는 `__next__()` 함수를 실행해준다.
 
+------------
+
+# 10. 모듈과 패키지
+
+### 1. 모듈 
+
+파이썬 파일은 각각 하나의 모듈로 취급됨
+
+1. 역할 : 함수의 정의, 단순 변수의 모음 등등 여러 역할을 함
+
+
+
+2. 모듈 불러오기(import)
+
+   기본 게임모듈에서, 부가적인 기능들을 불러와서 사용하는 형태로 코드를 작성해본다.
+
+   ```python
+   // module/shop.py
+   def buy_item():
+       print('Buy item!')
+   
+   buy_item()
+   ---------------------------------
+   // module/game.py
+   def play_game():
+       print('Play game!')
+   
+   play_game()
+   ---------------------------------
+   // module/lol.py
+   import game
+   import shop
+   
+   print('= Turn on game =')
+   game.play_game()
+   shop.buy_item()
+   
+   //
+   Play game!
+   Buy item!
+   = Turn on game =
+   Play game!
+   Buy item!
+   //
+   ```
+
+   lol.py가 실행될 때, game 과 shop이 import되는 순간 해당 코드가 실행되어 버리는 문제가 있다.
+
+   이때, 파이썬 인터프리터를 이용해 실행한 코드인지를 확인하여 단순히 import  한 모듈의 경우 실행을 막는 방식을 사용할 수 있다.
+
+   
+
+   각 모듈은 자신의 이름을 가지며, 모듈 이름은 모듈의 전역변수 `__name__`에서 확인할수 있다.
+
+   ```python
+   print(__name__)
+   ```
+
+   파이썬 인터프리터가 실행한 모듈의 경우, `__main__`이라는 이름을 가진다. 따라서 `python <파일명>`으로 실행한 경우에만 동작할 부분은 if문으로 감싸준다.
+
+   ```python
+   ------module/shop.py------
+   def buy_item():
+       print('Buy item!')
+   
+   if __name__ == '__main__':
+       buy_item()
+       
+   ------module/game.py------
+   def play_game():
+       print('Play game!')
+   
+   if __name__ == '__main__':
+       play_game()
+   
+   ------module/lol.py------
+   import game
+   import shop
+   
+   def turn_on():
+       print('= Turn on game = ')
+       
+       while True:
+           choice = input('what would you like to do?\n 1: Go to Shop, 2: Play  Game, 0: Exit\n    Input : ')
+           if choice == '0':
+               break
+           elif choice == '1':
+               shop.buy_item()
+           elif choice == '2':
+               game.play_game()
+           else:
+               print('Choice not exist')
+           print('-----------------------')
+           
+       print('= Turn off game =')
+   if __name__ == '__main__':
+       turn_on()
+   ```
+
+   
+
+3. 네임스페이스
+
+   각 모듈은 독립된 네임스페이스를 가진다. 메인으로 사용되고 있는 모듈이 아닌 import된 모듈의 경우, 해당 모듈의 네임스페이스를 사용해 모듈 내부의 데이터에 접근한다.
+
+    
+
+4. from을 사용해 모듈의 함수를 직접 import
+
+   `import 모듈명`의 경우, 모듈의 이름이 전역 네임스페이스에 등록되어 `모듈명.함수`로 사용가능하다.
+
+   모듈명을 생략하고 모듈 내부의 함수를 쓰고 싶다면, `from 모듈명 import  함수명`으로 불러들일 수 있다. 
+
+   
+
+5. from 모듈명 * 을 사용해 모듈 내 모든 식별자 (변수, 함수) import 할수 있음
+
+
+
+6. as로 별칭 할당
+
+   `from 모듈명 import`또는 `import 모듈명`에서, 같은 모듈명이 존재하거나 혼동 될 수 있을 경우, 뒤에 as를 붙여 사용할 모듈명을 변경할 수 있다.
+
+   
+
+7. 커맨드라인에서 인자 전달
+
+   프로그램 실행시 인자를 전달 할 수 있다. 파이썬의 내장 sys 모듈의 argv 리스트에서 확인 할수 있다. 리스트의 첫 번째 항목은 모듈명이 전달되므로, 2번째 항목부터 전달 된 값을 확인 할수 있다.
+
+
+
+### 2. 패키지
+
+패키지는 모듈들을 모아 둔 특별한 폴더를 뜻한다. (일반 폴더와 다름)
+
+폴더를 패키지로 만들면 계층 구조를 가질 수 있으며, 모듈들을 해당 패키지에 모을 수 잇는 역할을 한다.
+
+패키지를 만들 때는 패키지로 사용할 폴더에 `__init__.py`파일을 넣어주면, 해당 폴더는 패키지로 취급된다. (비어있어도 무관하다)
+
+```python
+├── functions
+│   ├── __init__.py
+│   ├── game.py
+│   └── shop.py
+└── lol.py
+```
+
+패키지는 모듈과 동일하게 import할 수 있으며, 위와 같이 functions패키지에 모듈들을 넣은 경우에는 `from functions import game, shop`으로 기존 코드의 변경 없이 패키지에서 모듈을 가져오는 방식을 사용할 수 있다.
+
+단순히 import functions 후 functions.game, functions.shop을 사용하는 방식도 가능하다.
+
+
+
+Tip!  `*,__all__`
+
+패키지에 포함된 하위 패키지 및 모듈을 불러올 때, `*`을 사용하면 해당 모듈의 모든 식별자들을 불러온다. 
+
+이때, 각 모듈에서 자신이 import될 때 불러와질 목록을 지정하고자 한다면 `__all__`을 정의하면된다.
+
+패키지 자체를 import시에 자동으로 가져오고 싶은 목록이 잇다면, 패키지의 `__init__.py`파일에 해당 항목을 import해주면 된다.
+
+-------------------
+
+# 11. 클래스 (class)
+
+### 1. 객체지향 프로그래밍
+
+1. 용어 정리 
+   1. 속성 : 객체가 가진 변수
+   2. 메서드 : 객체가 가진 함수
+   3. 객체 : 클래스의 형태를 가진 인스턴스
+
+
+
+### 2. 클래스
+
+1. 클래스란? 
+
+   객체를 만들기 위한 틀
+
+   ex) 
+
+   ```python
+   class Shop:
+       def __init__(self, name):
+           self.name = name
+   ```
+
+   위코드에서
+
+   `__init__` : 
+
+   1. 클래스를 사용한 객체의 초기화 메서드
+   2. 인자를 어떻게 전달받고, 받은 인자를 이용해 어떤 객체를 생성할 지 정의할수 있음
+
+    
+
+   위 클래스를 사용해서 객체를 생성하는 코드는 아래와 같다.
+
+   ```python
+   from class_sample import Shop
+   lotteria = Shop('Lotteria')
+   ```
+
+   위 코드는 아래 순서로 동작한다.
+
+   1. Shop 클래스가 정의되었는지 찾는다.
+   2. Shop 클래스형 객체를 메모리에 생성한다.
+   3. 생성한 객체의 초기화 메서드 `__init__()` 을 호출한다.
+   4. name값을 저장하고, 만들어진 객체를 반환한다.
+   5. `lotteria` 변수에 반환된 객체를 할당한다.
+
+     
+
+   /==
+
+   객체의 메서드를 정의할때,
+
+   첫 번째 인수는 항상 `self`이다 /  `self`에는 메서드를 호출하는 객체 자신이 자동으로 전달된다.
+
+   이렇게 `self`가 자동으로 호출되는 이유는 
+
+   클래스의 메서드를 사용할 때 어떤 객체가 해당 메서드를 사용하고 있는지 알 수 있도록 하기 위해서이다.
+
+   또한 이렇게 하나의 메서드를 여러 객체가 공유할 수 있다.
+
+   ==/ 
+
+   /
+
+   속성이나 메서드에 접근할 때는 `객체.속성명` 또는 `객체.메서드명`을 사용한다.
+
+   /
+
+   
+
+   /
+
+   클래스 속성
+
+   어떤 하나의 클래스로부터 생성된 객체들이 같은 값을 가지게 하고 싶을 경우, 클래스 속성을 사용한다.
+
+   ```python
+   class Shop:
+   	description = 'Python Shop Class'
+   	def __init__(self, name):
+   		self.name = name
+   ```
+
+   마찬가지로, 객체들에게서 각각의 인스턴스와는 별개의 공통된 메서드를 사용하게 하고 싶을 경우 클래스 메서드를 사용한다.
+
+   /
+
+   
+
+2. 메서드 
+
+   1. 인스턴스 메서드
+
+      특징 :
+
+      1. 첫 번째 인수로 `self`를 가진다.
+      2. 인스턴스를 이용해 메서드를 호출할 때 호출한 인스턴스가 자동으로 전달됨
+      3. 전달받은 인스턴스는 상태를 확인하거나 조작하는데에 사용된다.
+
+   
+
+3. 속성 접근 지정자(attribute access modifier)
+
+   1. 캡슐화
+
+      1. 정의 :
+
+         외부로 공개하고 싶지 않은 데이터, 메서드 를 은닉시켜 정해진 방법을 통해서만 객체를 조작할 수 있도록 하는 방식
+
+      
+
+   2. 왜쓸까?
+
+      객체의 데이터나 메서드의 은닉 정도를 결정할때
+
+      
+
+   3. private 지정자
+
+      속성 이름을 `__` 로 시작하면 외부에서의 접근을 제한한다.
+
+      이경우를 `private 지정자 `  라고 한다.
+
+      
+
+4. 파이썬에서의 getter, setter 구현
+
+   ```python
+   @property
+   def name(self):
+   	return self.__name
+   	
+   @name.setter
+   def name(self, new_name):
+   	self.__name = new_name
+   	print('Set new name ({})'.format(self.__name))
+   ```
+
+   setter 프로퍼티를 명시하지 않으면 읽기전용이 되어 외부에서 조작할 수 없게 된다.
+
+   
+
+5. 상속(inheritance)
+
+   1. 용어 정리 : 
+
+      1. 부모(상위)클래스 : 상속되는 클래스
+      2. 자식(하위)클래스 : 상속을 받는 클래스
+
+      
+
+   2. 상속되는것을 어떻게 표현하나
+
+      ```python
+      class Restuarant(Shop):
+      	pass
+      ```
+
+      상속받은 클래스는 부모 클래스의 모든 속성과 메서드를 사용할 수 있다.
+
+   
+
+6. 메서드 오버라이드
+
+   1. 정의 : 
+
+      상속받은 클래스에서, 부모 클래스의 메서드와는 다른 동작을 하도록 할 수 있다.
+
+      부모 클래스의 메서드를 덮어씌워서 사용하도록 하며, 이 방법을 메서드 오버라이드라고 함
+
+      
+
+7. 부모 클래스의 메서드를 호출(super)
+
+   1. 어떻게 호출하나
+
+      `super()`메서드를 사용해서 부모 클래스의 메서드를 직접 호출한다.
+
+   2. 언제 쓰나
+
+      자식클래스의 메서드에서 부모 클래스에서 사용하는 메서드의 전체를 새로 쓰는것이 아닌, 부모 클래스의 메서드를 호출 후 해당 내용으로 새로운 작업을 해야 할경우 씀
+
+   3. ex) super()메서드를 사용해서 부모의 `__init__` 메서드를 호출하는 예
+
+      ```python
+      class Restaurant(Shop):
+      	def __init__(self, name, shop_type, address, rating):
+              super().__init__(name, shop_type, address)
+              self.rating = rating
+      ```
+
+
+
+8. 정적(스태틱) 메서드
+
+   1. 정의 : 클래스 내부에 정의된 일반 함수
+
+   2. 특징 : 
+      1. 클래스나 인스턴스를 통해서 접근 할수 있을뿐
+      2. 해당 클래스나 인스턴스에 영향을 주는 것은 불가능함
+      3. 스태틱메서드는 `@staticmethod` 데코레이터를 붙여 선언함
+
+      
+
+   3. 언제 쓰이나:
+
+      1. 다양한 방식으로 인스턴스를 생성하는 클래스를 작성할 때 자주 사용된다.
+
+      
+
+   4. ex) 정적(스태틱) 메서드 예제
+
+      ```python
+      import random
+      
+      class Pokemon:
+      	def __init__(self, name, type):
+              self.name = name
+              self.type = type
+          
+          @staticmethod
+          def electric():
+              pokemons = ('피카츄', '라이츄', '붐볼')
+              selected_pokemon = random.choice(pokemons)
+              return Pokemon(selected_pokemon, '전기')
+          
+          @staticmethod
+          def water():
+              pokemons = ('꼬부기', '아쿠스타', '라프가스')
+              selected_pokemon = random.choice(pokemons)
+              return Champion(selected_pokemon, '물')
+      ```
+
+   
+
+9. 클래스 메서드
+
+   1. 정의 : 클래스 속성에 대해 동작하는 메서드
+
+   2. 특징 : 
+
+      1. 인스턴스 메서드와 달리 호출주체가 클래스
+      2. 첫번째 인자도 클래스
+      3. 만약 인스턴스가 첫 번째 인자로 주어지더라도 해당 인자의 클래스로 자동으로 바뀌어 전달
+
+   3. 어떻게 선언하나?
+
+      `@classmethod`데코레이터를 붙여 선언함
+
+      첫 번째 인자의 이름은 관용적으로 `cls`를 사용한다.
+
+
+
+10. 다형적 동적 바인딩
+
+    1. 다형성 : 일반적으로 하나의 코드가 여러 역할을 한다는 의미이다.
+
+       ex) `str()`이라는 내장 함수는 인수로 전달되는 객체의 타입에 관계 없이 해당 객체를 문자열 		형으로 형변환시켜줌
+
+    2. 동적 바인딩
+
+       `obj.attr`을 통해 속성에 접근하면, 인스턴스에서 `attr`을, 다음엔 클래스에서, 그 다음에는 상속받은 클래스에서 해당 속성을 검색하며 가장 먼저 검색한 속성을 반환한다.
+
+       동적으로 속성을 바인딩하는 과정은 obj 객체의 타입에 영향받지 않으며, 오로지 해당 객체가 attr에 해당하는 속성을 가졌는지만 검사한다. 
+
+------------
+
+# 12. 정규표현식
+
+1. 정규표현식이란?  : 특정한 패턴에 일치하는 복잡한 문자열을 처리할 때 사용하는 기법
+
+2. 어떻게 사용하는가?
+
+   파이썬 표준 모듈 `re`를 사용해서 정규표현식을 사용할 수 있다.
+
+   ex)
+
+   ```python
+   import re
+   result = re.match('Lux', 'Lux, the Lady of Luminosity')
+   ```
+
+   위 코드에서 `match`의 
+
+   첫번째 인자에는 패턴이
+
+   두번째 인자에는 문자열 소스 가 들어간다.
+
+    
+
+   `match()`는 소스와 패턴의 일치 여부를 확인하고, 일치할 경우 `Match object`를 반환한다.
+
+    
+
+   복잡하거나 자주 사용되는 패턴은 미리 컴파일하여 속도를 향상시킬 수 있다.
+
+   ```python
+   pattern1 = re.compile('Lux')
+   ```
+
+   컴파일된 패턴객체를 문자열 대신 첫 번째 인자로 사용 가능하다.
+
+   
+
+3. match : 시작부터 일치하는 패턴 찾기
+
+   ```python
+   >>> import re
+   >>> source = 'Lux, the Lady of Luminosity'
+   >>> m = re.match('Lux', source)
+   >>> if m:
+       	print(m.group())
+   // Lux
+   ```
+
