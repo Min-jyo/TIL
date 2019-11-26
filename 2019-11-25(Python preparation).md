@@ -2464,49 +2464,552 @@ Tip!  `*,__all__`
 
 # 12. 정규표현식
 
-1. 정규표현식이란?  : 특정한 패턴에 일치하는 복잡한 문자열을 처리할 때 사용하는 기법
+### 1. 정규표현식이란? 
 
-2. 어떻게 사용하는가?
+특정한 패턴에 일치하는 복잡한 문자열을 처리할 때 사용하는 기법
 
-   파이썬 표준 모듈 `re`를 사용해서 정규표현식을 사용할 수 있다.
 
-   ex)
+
+### 2. 어떻게 사용하는가?
+
+파이썬 표준 모듈 `re`를 사용해서 정규표현식을 사용할 수 있다.
+
+ex)
+
+```python
+import re
+result = re.match('Lux', 'Lux, the Lady of Luminosity')
+```
+
+위 코드에서 `match`의 
+
+첫번째 인자에는 패턴이
+
+두번째 인자에는 문자열 소스 가 들어간다.
+
+ 
+
+`match()`는 소스와 패턴의 일치 여부를 확인하고, 일치할 경우 `Match object`를 반환한다.
+
+ 
+
+복잡하거나 자주 사용되는 패턴은 미리 컴파일하여 속도를 향상시킬 수 있다.
+
+```python
+pattern1 = re.compile('Lux')
+```
+
+컴파일된 패턴객체를 문자열 대신 첫 번째 인자로 사용 가능하다.
+
+
+
+### 3. match : 시작부터 일치하는 패턴 찾기
+
+```python
+>>> import re
+>>> source = 'Lux, the Lady of Luminosity'
+>>> m = re.match('Lux', source)
+>>> if m:
+    	print(m.group())
+// Lux
+```
+
+`match()` 는 시작부분부터 일치하는 패턴만 찾기 때문에, `Lady`라는 패턴으로는 찾을수 없다.
+
+```python
+>>> m = re.match('.*Lady',source)
+>>> if m:
+    	print(m.group())
+// Lux, the Lady
+```
+
+위 결과는 다음을 의미한다.
+
+- .은 문자 1개를 의미
+- `*`는 해당 패턴이 0회 이상 올수 있다는 의미
+- 따라서 .*lady 는 앞에 아무 문자열(또는 빈) 이후 Lady로 끝나는 패턴을 의미한다.
+
+
+
+### 4. search : 첫 번째 일치하는 패턴 찾기
+
+`*` 패턴 없이 Lady만 찾을 경우, 문자열 전체에서 일치하는 부분을 찾는 `search()`를 사용한다.
+
+```python
+>>> m = re.search('Lady', source)
+>>> if m:
+		print(m.group())
+// Lady
+```
+
+
+
+### 5. findall : 일치하는 모든 패턴 찾기
+
+```python
+>>> m = re.findall('y', source)
+>>> m
+>>> ['y', 'y']
+>>> m = re.findall('y..',source)
+>>> m
+['y o']
+```
+
+끝자리의`y` 는 뒤에 문자가 더 없으므로 포함되지 않으므로 `?`를 추가한다.
+
+`.`은 문자 1개를 의미하며, `?`는 0또는 1회 반복을 사용한다. `.?`은 문자가 0또는 1회 올 수 있음을 의미한다.
+
+```python
+>>> m = re.findall('y.?.?', source)
+>>> m
+['y o', 'y']
+```
+
+
+
+### 6. split : 패턴으로 나누기
+
+문자열의 `split()` 메서드와 비슷하지만 패턴을 사용할 수 있다.
+
+```python
+>>> m = re.split('o', source)
+>>> m
+['Lux, the Lady ', 'f Lumin', 'sity']
+```
+
+
+
+### 7. sub: 패턴 대체하기
+
+문자열의 `replace()`메서드와 비슷하지만 패턴을 사용할 수 있다.
+
+```python
+>>> m = re.sub('o', '!', source)
+>>> m
+'Lux, the Lady !f Lumin!sity'
+```
+
+
+
+### 8. 정규표현식의 패턴 문자
+
+| 패턴 | 문자                      |
+| ---- | ------------------------- |
+| \d   | 숫자                      |
+| \D   | 비숫자                    |
+| \w   | 문자                      |
+| \W   | 비문자                    |
+| \s   | 공백 문자                 |
+| \S   | 비공백 문자               |
+| \b   | 단어 경계(\w와 \W의 경계) |
+| \B   | 비단어 경계               |
+
+```python
+import string
+import re
+printable = string.printable
+print(re.findall('\w', printable))
+print(re.findall('\d', printable))
+
+// ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '_']
+['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+```
+
+
+
+### 9. 정규 표현식의 패턴 지정자(Pattern specifier)
+
+expr은 정규표현식을 말한다.
+
+| 패턴            | 의미                                           |
+| --------------- | ---------------------------------------------- |
+| abc             | 리터럴 `abc`                                   |
+| (expr)          | expr                                           |
+| expr1 \| expr2  | expr1 또는 expr2                               |
+| .               | `\n`을 제외한 모든 문자                        |
+| ^               | 소스문자열의 시작                              |
+| $               | 소스문자열의 끝                                |
+| expr`?`         | 0 또는 1회의 expr                              |
+| expr`*`         | 0회 이상의 최대 expr                           |
+| expr`*?`        | 0회 이상의 최소 expr                           |
+| expr`+`         | 1회 이상의 최대 expr                           |
+| expr`+?`        | 1회 이상의 최소 expr                           |
+| expr`{m}`       | m회의 expr                                     |
+| expr`{m,n}`     | m에서 n회의 최대 expr                          |
+| expr`{m,n}?`    | m에서 n회의 최소 expr                          |
+| [abc]           | a or b or c                                    |
+| [^abc]          | not (a or b or c)                              |
+| expr1(?=expr2)  | 뒤에 expr2가 오면 expr1에 해당하는 부분        |
+| expr1(?!expr2)  | 뒤에 expr2가 오지 않으면 expr1에 해당하는 부분 |
+| (?<=expr1)expr2 | 앞에 expr1이 오면 expr2에 해당하는 부분        |
+| (?<!expr1)expr2 | 앞에 expr1이 오지 않으면 expr2에 해당하는 부분 |
+
+ex)
+
+```python
+import re
+
+story = '''Born to the prestigious Crownguards, the paragon family of Demacian service, Luxanna was destined for greatness. She grew up as the family's only daughter, and she immediately took to the advanced education and lavish parties required of families as high profile as the Crownguards. As Lux matured, it became clear that she was extraordinarily gifted. She could play tricks that made people believe they had seen things that did not actually exist. She could also hide in plain sight. Somehow, she was able to reverse engineer arcane magical spells after seeing them cast only once. She was hailed as a prodigy, drawing the affections of the Demacian government, military, and citizens alike.
+
+As one of the youngest women to be tested by the College of Magic, she was discovered to possess a unique command over the powers of light. The young Lux viewed this as a great gift, something for her to embrace and use in the name of good. Realizing her unique skills, the Demacian military recruited and trained her in covert operations. She quickly became renowned for her daring achievements; the most dangerous of which found her deep in the chambers of the Noxian High Command. She extracted valuable inside information about the Noxus-Ionian conflict, earning her great favor with Demacians and Ionians alike. However, reconnaissance and surveillance was not for her. A light of her people, Lux's true calling was the League of Legends, where she could follow in her brother's footsteps and unleash her gifts as an inspiration for all of Demacia.'''
+
+print(re.findall('Lux', story))
+print(re.findall('Lux|her|she', story))
+print(re.findall('[Ll]ux|[Hh]er|[Ss]he', story))
+print(re.findall('^Born', story))
+print(re.findall('Demacia$', story))
+print(re.findall('was', story))
+print(re.findall('(?<=she) was', story))
+print(re.findall('\w+(?<!she) was', story))
+print(re.findall('\bwas\b', story))
+print(re.findall(r'\bwas\b', story))
+
+// result
+['Lux', 'Lux', 'Lux', 'Lux']
+['Lux', 'she', 'Lux', 'she', 'she', 'she', 'Lux', 'her', 'her', 'her', 'her', 'her', 'her', 'her', 'her', 'Lux', 'her', 'she', 'her', 'her', 'her']
+['Lux', 'She', 'she', 'Lux', 'she', 'She', 'She', 'she', 'She', 'she', 'Lux', 'her', 'her', 'her', 'She', 'her', 'her', 'She', 'her', 'her', 'her', 'Lux', 'her', 'she', 'her', 'her', 'her']
+['Born']
+[]
+['was', 'was', 'was', 'was', 'was', 'was', 'was']
+[' was', ' was', ' was']
+['Luxanna was', 'She was', 'surveillance was', 'calling was']
+[]
+['was', 'was', 'was', 'was', 'was', 'was', 'was']
+```
+
+`\`로 시작하는 패턴 문자나, 정규표현식에서 `\`를 직접 사용해야 하는 경우 문자열의 이스케이프문을 사용하지 않고, 정규식 내에서 `\`로 해석됨을 나타내기 위해 앞에 `r`을 붙인다.
+
+ 
+
+정규표현식의 패턴에는 항상 앞에 `r`을 붙인다고 생각하는 것이 좋다. (만약 정규표현식 내부에서 `\`를 쓰지 않을 경우, `r`을 붙임과 붙이지 않음은 같은 결과를 가져온다.)
+
+
+
+### 10. 매칭 결과 그룹화
+
+정규표현식 패턴중 괄호로 둘러싸인 부분이 있을 경우, 결과는 해당 괄호만의 그룹으로 저장된다.
+
+ 
+
+Match객체의 `group()` 함수는 매치된 전체 문자열을 리턴하며, `group()`함수는 지정된 그룹 리스트를 리턴해준다.
+
+`group(0)`은 `group()`과 같은 동작을 하며, `group(숫자)`는 매치된 `숫자`번째의 그룹 요소를 리턴해준다.
+
+```python
+s = re.search(r'\w+\w(was)', story)
+s.groups()
+s.group(0)
+s.group(1)
+```
+
+ (?P<name>expr)  패턴을 사용하면 매칭된 표현식 그룹에 이름을 붙여 사용할 수 있다.
+
+```python
+m = re.search(r'(?P<before>\w+)\s+(?P<was>was)\s+(?P<after>\w+)', story)
+m.groups()
+m.group('before')
+m.group('was')
+m.group('after')
+```
+
+
+
+### 11. 최소일치와 최대일치
+
+```python
+<html><body><h1>HTML</h1></body></html>
+```
+
+위 항목을
+
+```python
+m = re.match(r'<.*>', html)
+```
+
+로 검색하면, ` .* `표현식이 첫 번째 `>`에서 멈추는 것이 아니라 맨 마지막 `>`까지 검색을 진행한다.
+
+`*`이나 `+`에 최소일치인 `?`를 붙여주면, 표현식 다음부분에 해당하는 문자열이 처음 나왔을 때 그 부분까지만 일치시키고 검색을 마친다.
+
+-----------
+
+# 13. 예외처리
+
+### 1. 예외처리
+
+오류 발생하면 프로그램은 에러 출력하며 강제 종료되거나 이상한 동작을 함
+
+이러한 오류를 안전하게 처리하고 바로 강제종료 되지 않고 오류 발생 후 처리할 루틴을 실행하고자
+
+할때 예외처리를 사용함
+
+
+
+1. 예외처리의 가장 기본적인 형태 : 
 
    ```python
-   import re
-   result = re.match('Lux', 'Lux, the Lady of Luminosity')
+   try : 
+   	시도할 코드
+   except:
+   	에러가 발생했을 경우 실행할 코드
    ```
 
-   위 코드에서 `match`의 
-
-   첫번째 인자에는 패턴이
-
-   두번째 인자에는 문자열 소스 가 들어간다.
-
-    
-
-   `match()`는 소스와 패턴의 일치 여부를 확인하고, 일치할 경우 `Match object`를 반환한다.
-
-    
-
-   복잡하거나 자주 사용되는 패턴은 미리 컴파일하여 속도를 향상시킬 수 있다.
-
-   ```python
-   pattern1 = re.compile('Lux')
-   ```
-
-   컴파일된 패턴객체를 문자열 대신 첫 번째 인자로 사용 가능하다.
+   리스트의 범위를 넘어간 에러를 테스트해본다.
 
    
 
-3. match : 시작부터 일치하는 패턴 찾기
+2. 여러가지 예외를 구분할 경우의 형태
 
    ```python
-   >>> import re
-   >>> source = 'Lux, the Lady of Luminosity'
-   >>> m = re.match('Lux', source)
-   >>> if m:
-       	print(m.group())
-   // Lux
+   try : 
+   	시도할 코드
+   except <예외 클래스1> :
+       에러클래스 1에 해당할 때 실행할 코드
+   except <예외 클래스2> :
+       에러클래스 2에 해당할 때 실행할 코드
+   except <예외 클래스3> :
+       에러클래스 3에 해당할 때 실행할 코드
+   ... 
    ```
+
+   
+
+3. 예외사항을 변수로 사용할 경우의 형태
+
+   ```python
+   try : 
+   	시도할 코드
+   except <예외클래스> as <변수명>:
+   		<변수명>을 사용한 코드
+   ```
+
+
+
+### 2. try ~ else
+
+`else`문은 `try`이후 예외가 발생하지 않을 경우 실행된다.
+
+```python
+try:
+	시도할 코드
+except:
+	예외 발생시 실행 코드
+else:
+	예외가 발생하지 않았을 시 실행할 코드
+```
+
+
+
+### 3. try ~ finally
+
+`finally `문은  try 이후 예외가 발생하건, 하지 않건 무조건 마지막에 실행된다.
+
+
+
+### 4. 예외 발생시키는 방법
+
+`raise`구문을 사용한다.
+
+
+
+### 5. 예외 만들기
+
+내장 클래스 `Exception`을 상속받아 커스텀 예외를 만들 수 있다. 초기화 메서드에서 예외에서 처리할 데이터를 받고, print 문으로 사용되고 싶다면 `__str__` 메서드를 오버라이드 해준다.
+
+--------------
+
+# 14. 파일입출력
+
+## 1. 파일 다루기
+
+프로그램이 실행되는 동안 데이터는 휘발성 기억장치인 메모리(RAM)에 저장된다. 
+
+작업중인 데이터를 저장하거나, 
+
+이미 저장되어있는 데이터를 불러오기 위해서는 
+
+하드디스크나 SSD에 파일을 쓰거나 읽는 과정이 필요하다.
+
+### 1. 파일 열기
+
+1. 문법 
+
+   ```python
+   변수 = open(파일명, 모드)
+   ```
+
+   내장함수`open()`을 사용하며, 파일명은 파일의 경로를 나타낸다.
+
+#### 1. 모드의 첫 번째 글자
+
+| 모드 | 설명                                          |
+| ---- | --------------------------------------------- |
+| r    | 읽기                                          |
+| w    | 쓰기 (파일이 이미 존재할 경우 덮어쓴다)       |
+| x    | 쓰기 (단, 파일이 존재하지 않을 경우에만)      |
+| a    | 추가 (파일이 존재할 경우 파일의 끝부터 쓴다.) |
+
+
+
+#### 2. 모드의 두 번째 글자
+
+| 모드        | 설명            |
+| ----------- | --------------- |
+| t 또는 없음 | 텍스트타입      |
+| b           | 이진데이터 타입 |
+
+Tip! 이진 데이터란?
+
+이진형식 (0 과 1)로 이루어진 텍스트를 제외한 데이터를 말함.
+
+### 2. 파일 쓰기: write()
+
+문법 
+
+```python
+write()
+```
+
+ex)
+
+```python
+iu = '아이유는아이가아니에유'
+len(iu)
+```
+
+`iu.txt`파일에 내용을 쓴다.
+
+```python
+f = open('iu.txt', 'wt')
+f.write(iu)
+```
+
+```
+f.close()
+```
+
+`iu.txt`파일에 내용을 쓴다.
+
+만약 문자열이 클 경우, 일정 단위로 나누어서 파일에 쓰는 방식을 사용한다.
+
+```python
+>>> f = open('iu.txt', 'wt')
+>>> size = len(iu)
+>>> offset = 0
+>>> chunk = 30
+>>> while True:
+...   if offset > size:
+...     break
+...   f.write(iu[offset:offset+chunk])
+...   offset += chunk
+...
+30
+30
+15
+```
+
+덮어쓰기를 방지하려면 `wt` 대신 `xt`를 사용해서 이미 존재하는 파일은 쓸 수 없도록 처리한다.
+
+```
+>>> try:
+...   f = open('iu.txt', 'xt')
+...   f.write('미국에서 비가 쏟아지면? USB')
+... except FileExistsError:
+...   print('iu.txt exists')
+...
+iu.txt exists
+```
+
+### 3. 텍스트파일 전체 읽기: read()
+
+read() 함수는 전체 파일을 한 번에 가져오므로, 메모리 사용에 유의해야한다.
+
+```python
+>>> f = open('iu.txt', 'rt')
+>>> iu = f.read()
+>>> f.close()
+>>> len(iu)
+```
+
+파일을 전부 읽으면 빈 문자열이 리턴되고, if문에서 False로 판단하여 루프가 끝난다.
+
+
+
+### 4. 텍스트파일 줄 단위 읽기: readline()
+
+```python
+>>> iu = ''
+>>> f = open('iu.txt', 'rt')
+>>> while True:
+...   line = f.readline()
+...   if not line:
+...     break
+...   iu += line
+...
+>>> f.close()
+>>> len(iu)
+```
+
+파일을 라인단위로 읽어 문자열에 저장한다.
+
+빈 라인(\n)은 길이가 1이며, 파일의 끝에서만 완전히 빈 문자열(‘’)을 리턴한다.
+
+
+
+### 5. 이터레이터를 사용한 텍스트 파일 읽기
+
+```python
+>>> iu = ''
+>>> f = open('iu.txt', 'rt')
+>>> for line in f:
+...   iu += line
+...
+>>> f.close()
+>>> len(iu)
+75
+```
+
+readline() 을 호출한 것과 같은 결과를 보인다.
+
+
+
+### 6. 텍스트파일을 줄 단위 문자열 리스트로 리턴: readlines()
+
+```python
+>>> f = open('iu.txt', 'rt')
+>>> lines = f.readlines()
+>>> f.close()
+>>> for line in lines:
+...   print(line)
+```
+
+
+
+### 7. 자동으로 파일 닫기: with
+
+연 파일을 닫지 않을 경우, 파이썬에서는 해당 파일이 더 이상 사용되지 않을 때 파일을 자동으로 닫아줌
+
+
+
+다만,
+
+메인프로그램이나 오랫동안 동작하는 함수에서 파일을 열 경우, 
+
+명시적으로 닫아주지 않을 경우 문제가 발생한다.
+
+```python
+with 표현식 as 변수
+```
+
+위의 구문을 사용하면, `with`문 내부에서 파일을 사용한 후 구문이 종료되면 자동으로 파일을 닫아주므로 프로그래밍 단계에서 일일이 파일을 닫아주는 부분에 신경쓰지 않아도 된다.
+
+```python
+>>> with open('iu.txt', 'wt') as f:
+		f.write(iu)
+```
+
+
+
+### 8. 이진 데이터 다루기
+
+쓰거나 읽을 때, t 대신 b 인자를 사용하면 된다.
 
