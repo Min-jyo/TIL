@@ -642,3 +642,4 @@ showSkip(3)
 서버에서 파일을 가지고 오고 보내고 하려면 
 
 scp 명령어를 사용하거나 FileZilla 를 사용해야한다. https://filezilla-project.org/
+
