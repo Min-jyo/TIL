@@ -1,0 +1,49 @@
+<!--html:5[tab]-->
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/static/css/jiho.css">
+    <link rel="stylesheet" href="/static/css/search-embedded.css">
+    <link rel="stylesheet" href="/static/bootstrap/bootstrap.css">
+</head>
+<body>
+<div class="main">
+    <div class="left">
+        <div class="first"><i class="icon-search"></i>관심사를 팔로우하세요</div>
+        <div class="second"><i class="icon-users"></i>사람들이 이야기하고 있는 주제에 대해 알아보세요</div>
+        <div class="third"><i class="icon-comment-alt2"></i>대화에 참여하세요.</div>
+    </div>
+    <div class="right">
+        <form action="" method="POST" class="login-form">
+            {% csrf_token %}
+            <div class="form-item">
+                <input type="text" placeholder="Phone, email, or username">
+            </div>
+            <div class="form-item">
+                <input type="password" placeholder="Password">
+            </div>
+            <div class="form-item">
+                <button>Log in</button>
+            </div>
+        </form>
+
+        <div>
+            <i class="icon-twitter-bird" style="color: blue"></i>
+            <p>지금 세계 곳곳에서 무슨 일이</p>
+            <p>일어나고 있는지 확인하세요.</p>
+
+            <p>지금 트위터에 가입하세요</p>
+            <button>가입하기</button>
+            <button>로그인</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
