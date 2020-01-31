@@ -289,3 +289,16 @@
 
     
 
+13. push 명령어
+
+    설명 : Docker Hub 공개 저장소에 이미지 올림
+
+    형식 : `sudo docker [OPTION] NAME[:TAG]` 
+
+    예시 : 
+
+    ```bash
+    $ sudo docker push minjo/wps-instagram
+    ```
+
+    
